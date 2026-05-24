@@ -1,5 +1,3 @@
--- 1. СУБ-ИЗМЕРЕНИЯ (Самые дальние края "Снежинки")
-
 CREATE TABLE dim_date (
     date_id SERIAL PRIMARY KEY,
     full_date DATE UNIQUE,
@@ -30,8 +28,6 @@ CREATE TABLE dim_category (
     category_name TEXT UNIQUE,
     pet_category TEXT
 );
-
--- 2. ОСНОВНЫЕ ИЗМЕРЕНИЯ (Связующее звено)
 
 CREATE TABLE dim_supplier (
     supplier_id SERIAL PRIMARY KEY,
@@ -94,7 +90,6 @@ CREATE TABLE dim_product (
     supplier_id INT REFERENCES dim_supplier(supplier_id)
 );
 
--- 3. ТАБЛИЦА ФАКТОВ (Центр)
 CREATE TABLE fact_sales (
     fact_id SERIAL PRIMARY KEY,
     sale_id INT,
