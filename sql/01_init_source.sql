@@ -1,5 +1,7 @@
 SET datestyle = 'MDY';
 
+DROP TABLE IF EXISTS source_data;
+
 CREATE TABLE source_data (
     id INT,
     customer_first_name TEXT,
@@ -63,3 +65,16 @@ COPY source_data FROM '/data/MOCK_DATA (6).csv' DELIMITER ',' CSV HEADER;
 COPY source_data FROM '/data/MOCK_DATA (7).csv' DELIMITER ',' CSV HEADER;
 COPY source_data FROM '/data/MOCK_DATA (8).csv' DELIMITER ',' CSV HEADER;
 COPY source_data FROM '/data/MOCK_DATA (9).csv' DELIMITER ',' CSV HEADER;
+
+ALTER TABLE source_data ADD COLUMN source_row_id BIGINT;
+CREATE SEQUENCE source_data_source_row_id_seq OWNED BY source_data.source_row_id;
+
+UPDATE source_data
+SET source_row_id = nextval('source_data_source_row_id_seq');
+
+SELECT setval('source_data_source_row_id_seq', MAX(source_row_id))
+FROM source_data;
+
+ALTER TABLE source_data ALTER COLUMN source_row_id SET DEFAULT nextval('source_data_source_row_id_seq');
+ALTER TABLE source_data ALTER COLUMN source_row_id SET NOT NULL;
+ALTER TABLE source_data ADD PRIMARY KEY (source_row_id);
